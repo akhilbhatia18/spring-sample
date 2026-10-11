@@ -92,6 +92,11 @@ Create and update requests use JSON with `name`, `email`, and `course` fields, f
 Student lookups and lists are cached in memory and the caches are cleared after
 successful create, update, and delete operations.
 
+Import [`Student API.postman_collection.json`](./postman/Student%20API.postman_collection.json)
+into Postman to try the health check and student CRUD flow. Set the collection's
+`password` variable before sending requests. Run **Get CSRF Token** before write
+requests; Postman will keep the session cookie and token for those requests.
+
 ### Review guides
 
 Repository-level, tool-neutral review instructions are available for use by
