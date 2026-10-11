@@ -38,6 +38,17 @@ against the JPA entity. Sample student records are inserted at startup from
 application stops.
 The H2 console is available at `/h2-console`.
 
+### Application login
+
+The sample account is seeded into the H2 `users` and `authorities` tables at
+startup by [`data.sql`](./src/main/resources/data.sql). Use username `student`
+and password `Student@123` to sign in at `/login` or authenticate API requests
+with HTTP Basic. Passwords are stored as BCrypt hashes, not plaintext.
+
+This is a shared, known demo credential and must not be used for a public or
+production deployment. Replace it with a unique secret and use persistent,
+managed identity storage before exposing the application to real users.
+
 ### CI, Render deployment, and health checks
 
 The GitHub Actions workflow at `.github/workflows/ci-cd.yml` runs tests and
