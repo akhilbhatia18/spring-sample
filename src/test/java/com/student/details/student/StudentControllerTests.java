@@ -73,6 +73,14 @@ class StudentControllerTests {
 	}
 
 	@Test
+	void providesCsrfTokenToAuthenticatedApiUser() throws Exception {
+		mockMvc.perform(get("/api/csrf").with(httpBasic("student", "Student@123")))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.headerName").value("X-CSRF-TOKEN"))
+				.andExpect(jsonPath("$.token").isNotEmpty());
+	}
+
+	@Test
 	void supportsStudentCrud() throws Exception {
 		studentRepository.deleteAll();
 		cacheManager.getCache("students").clear();
