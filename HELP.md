@@ -38,6 +38,26 @@ against the JPA entity. Sample student records are inserted at startup from
 application stops.
 The H2 console is available at `/h2-console`.
 
+### CI, Render deployment, and health checks
+
+The GitHub Actions workflow at `.github/workflows/ci-cd.yml` runs tests and
+packages the application on each push. A push to the repository's default
+branch triggers the Render deploy hook only after verification succeeds.
+
+Create the Render service from [`render.yaml`](./render.yaml), then add its
+deploy-hook URL to the GitHub repository as the `RENDER_DEPLOY_HOOK_URL` Actions
+secret. Automatic Render Git deployments are disabled in the blueprint to avoid
+deploying before the workflow passes.
+
+The service listens on Render's `PORT` and uses `/actuator/health` as its public
+health check. Liveness and readiness checks are also available at
+`/actuator/health/liveness` and `/actuator/health/readiness`. Only health is
+exposed, and the health routes do not require authentication.
+
+The current H2 database uses in-memory storage, so student data is not durable
+and is lost when the service restarts or is redeployed. Use a persistent database
+before relying on this deployment for retained data.
+
 All endpoints use the existing application security configuration:
 
 | Method | Path | Operation |

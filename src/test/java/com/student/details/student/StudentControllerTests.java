@@ -29,6 +29,19 @@ class StudentControllerTests {
 	private StudentRepository studentRepository;
 
 	@Test
+	void exposesHealthChecksWithoutAuthentication() throws Exception {
+		mockMvc.perform(get("/actuator/health"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.status").value("UP"));
+		mockMvc.perform(get("/actuator/health/liveness"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.status").value("UP"));
+		mockMvc.perform(get("/actuator/health/readiness"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.status").value("UP"));
+	}
+
+	@Test
 	void supportsStudentCrud() throws Exception {
 		studentRepository.deleteAll();
 		mockMvc.perform(get("/api/students").with(user("student-api-test")))
